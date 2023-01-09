@@ -5,6 +5,7 @@ import japbook.japshop.domain.Order;
 import japbook.japshop.domain.OrderStatus;
 import japbook.japshop.repository.OrderRepository;
 import japbook.japshop.repository.OrderSearch;
+import japbook.japshop.repository.OrderSimpleQueryDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -50,6 +51,15 @@ public class OrderSimpleApiController {
 
         return new Result(result);
     }
+
+    @GetMapping("/api/v4/simple-orders")
+    public Result ordersV4(){
+
+        List<OrderSimpleQueryDto> orderDtos = orderRepository.findOrderDtos();
+
+        return new Result(orderDtos);
+    }
+
 
 
     @Data
