@@ -1,5 +1,6 @@
 package japbook.japshop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import japbook.japshop.domain.item.Item;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -26,6 +27,7 @@ public class OrderItem {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
+    @JsonIgnore
     private Order order;
 
     private int orderPrice;
