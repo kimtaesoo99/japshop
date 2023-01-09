@@ -39,13 +39,13 @@ public class OrderRepository {
         Root<Order> o = cq.from(Order.class);
         Join<Order, Member> m = o.join("member", JoinType.INNER); //회원과 조인
         List<Predicate> criteria = new ArrayList<>();
-//주문 상태 검색
+        //주문 상태 검색
         if (orderSearch.getOrderStatus() != null) {
             Predicate status = cb.equal(o.get("status"),
                 orderSearch.getOrderStatus());
             criteria.add(status);
         }
-//회원 이름 검색
+        //회원 이름 검색
         if (StringUtils.hasText(orderSearch.getMemberName())) {
             Predicate name =
                 cb.like(m.<String>get("name"), "%" +
@@ -64,4 +64,13 @@ public class OrderRepository {
                                      " join fetch o.delivery d", Order.class).getResultList();
 
     }
+
+    public List<OrderSimpleQueryDto> findOrderDtos() {
+       return em.createQuery("select new japbook.japshop.repository.OrderSimpleQueryDto(o.id, m.name , o.localDateTime,o.status,d.address)"+
+           " from Order o"+
+            " join o.member m" +
+           " join o.delivery d",OrderSimpleQueryDto.class).getResultList();
+    }
+
+
 }
