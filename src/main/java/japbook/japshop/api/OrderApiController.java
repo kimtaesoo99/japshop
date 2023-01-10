@@ -4,6 +4,8 @@ import japbook.japshop.domain.Address;
 import japbook.japshop.domain.Order;
 import japbook.japshop.domain.OrderItem;
 import japbook.japshop.domain.OrderStatus;
+import japbook.japshop.repository.OrderQueryDto;
+import japbook.japshop.repository.OrderQueryRepository;
 import japbook.japshop.repository.OrderRepository;
 import japbook.japshop.repository.OrderSearch;
 import lombok.Getter;
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 public class OrderApiController {
 
     private final OrderRepository orderRepository;
+    private final OrderQueryRepository orderQueryRepository;
 
     @GetMapping("/api/v1/orders")
     public List<Order> ordersV1(){
@@ -54,6 +57,11 @@ public class OrderApiController {
         List<Order> orders = orderRepository.findAllWithMemberDelivery(offset,limit);
 
         return orders.stream().map(o -> new OrderDto(o)).collect(Collectors.toList());
+    }
+
+    @GetMapping("/api/v4/orders")
+    public List<OrderQueryDto> ordersV4(){
+       return orderQueryRepository.findOrderQueryDtos();
     }
 
     @Getter
