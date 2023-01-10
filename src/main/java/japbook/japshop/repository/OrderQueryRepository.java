@@ -59,4 +59,14 @@ public class OrderQueryRepository {
         return em.createQuery("select new japbook.japshop.repository.OrderQueryDto(o.id,m.name,o.localDateTime,o.status,d.address)" +
             " from Order o join  o.member m join  o.delivery d ", OrderQueryDto.class).getResultList();
     }
+
+    public List<OrderFlatDto> findAllByDto_flat() {
+        return em.createQuery("select new japbook.japshop.repository.OrderFlatDto(o.id,m.name,o.localDateTime,o.status,d.address,i.name,oi.orderPrice,oi.count) " +
+            "from Order o" +
+            " join o.member m" +
+            " join o.delivery d" +
+            " join o.orderItems oi" +
+            " join oi.item i",OrderFlatDto.class).getResultList();
+
+    }
 }
